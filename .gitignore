@@ -6,3 +6,5 @@ auth.py
 .idea/
 
 __pycache__/
+
+test*.py
