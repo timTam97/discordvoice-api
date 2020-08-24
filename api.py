@@ -1,6 +1,6 @@
-import auth
 from flask import Flask
 
+import auth
 
 app = Flask(__name__)
 

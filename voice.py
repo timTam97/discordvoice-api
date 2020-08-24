@@ -1,5 +1,6 @@
-import auth
 import discord
+
+import auth
 
 client = discord.Client()
 
