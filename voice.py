@@ -1,3 +1,5 @@
+import datetime
+
 import discord
 
 import auth
@@ -19,7 +21,7 @@ async def on_voice_state_update(member=0, before=0, after=0):
     with open("voice_lst", "w") as f:
         for member in members:
             f.write(str(member) + "\n")
-    print("updated.")
+    print("[" + str(datetime.datetime.today())[:-7] + "] updated")
 
 
 @client.event
