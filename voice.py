@@ -1,32 +1,37 @@
 import datetime
+import json
 
 import discord
 
 import auth
 
 client = discord.Client()
+attached_guild: discord.Guild = None
 
 
 @client.event
-async def on_voice_state_update(member=0, before=0, after=0):
-    pingu = 0
-    for guild in client.guilds:
-        if guild.name == auth.SERVER_NAME:
-            pingu = guild
-    members = []
-    for channel in pingu.voice_channels:
-        members.append(channel.members)
-    members = [item for sublist in members for item in sublist]
-    members = list(map(lambda x: x.name, members))
+async def on_voice_state_update(member=None, before=None, after=None):
+    assert attached_guild is not None
+    voice_data = {}
+    for channel in attached_guild.voice_channels:
+        channel_member_lst = []
+        for member in channel.members:
+            channel_member_lst.append(
+                {"name": member.name, "streaming": member.voice.self_stream}
+            )
+        voice_data[str(channel)] = channel_member_lst
     with open("voice_lst", "w") as f:
-        for member in members:
-            f.write(str(member) + "\n")
-    print("[" + str(datetime.datetime.today())[:-7] + "] updated")
+        json.dump(voice_data, f)
+    print("[" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "] updated")
 
 
 @client.event
 async def on_ready():
     print("Logged in as {0.user}".format(client))
+    global attached_guild
+    for guild in client.guilds:
+        if guild.name == auth.SERVER_NAME:
+            attached_guild = guild
     await on_voice_state_update()
 
 

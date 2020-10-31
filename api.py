@@ -7,12 +7,10 @@ import auth
 app = flask.Flask(__name__)
 
 
-@app.route(auth.API_URL)
-def default():
+@app.route("/members")
+def members():
     if flask.request.headers.get("Authorization") == auth.HEADER_AUTH:
-        members = []
         with open("voice_lst", "r") as f:
-            for line in f:
-                members.append(line.strip())
-        return flask.Response(response=json.dumps(members), status=200)
-    return flask.Response(response="no", status=403)
+            data = json.load(f)
+        return flask.jsonify(data), 200
+    return "<h1>NO</h1>", 403
