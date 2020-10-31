@@ -8,3 +8,5 @@ auth.py
 __pycache__/
 
 test*.py
+
+voice_lst_ref
