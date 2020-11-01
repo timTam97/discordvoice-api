@@ -12,10 +12,15 @@ attached_guild: discord.Guild = None
 @client.event
 async def on_voice_state_update(member=None, before=None, after=None):
     assert attached_guild is not None
-    voice_data = {}
+    member_count = 0
+    occupied_channel_count = 0
+    voice_data = {"channels": {}}
     for channel in attached_guild.voice_channels:
+        nonempty = False
         channel_member_lst = []
         for member in channel.members:
+            nonempty = True
+            member_count += 1
             channel_member_lst.append(
                 {
                     "name": member.name,
@@ -26,7 +31,11 @@ async def on_voice_state_update(member=None, before=None, after=None):
                     "server_mute": member.voice.mute,
                 }
             )
-        voice_data[str(channel)] = channel_member_lst
+        if nonempty:
+            occupied_channel_count += 1
+        voice_data["occupied_channels"] = occupied_channel_count
+        voice_data["member_count"] = member_count
+        voice_data["channels"][str(channel)] = channel_member_lst
     with open("voice_lst", "w") as f:
         json.dump(voice_data, f)
     print("[" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "] updated")
