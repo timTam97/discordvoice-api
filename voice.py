@@ -17,7 +17,14 @@ async def on_voice_state_update(member=None, before=None, after=None):
         channel_member_lst = []
         for member in channel.members:
             channel_member_lst.append(
-                {"name": member.name, "streaming": member.voice.self_stream}
+                {
+                    "name": member.name,
+                    "streaming": member.voice.self_stream,
+                    "self_mute": member.voice.self_mute,
+                    "self_deaf": member.voice.self_deaf,
+                    "server_deaf": member.voice.deaf,
+                    "server_mute": member.voice.mute,
+                }
             )
         voice_data[str(channel)] = channel_member_lst
     with open("voice_lst", "w") as f:
