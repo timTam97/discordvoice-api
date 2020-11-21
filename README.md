@@ -42,5 +42,6 @@ Simple Flask API backend for [alexa-discordvoice](https://github.com/timTam97/al
   },
   "member_count": 3,
   "occupied_channels": 2
+  "live_count": 1
 }
 ```
