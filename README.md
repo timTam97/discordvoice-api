@@ -1,9 +1,14 @@
 # discordvoice-api
-Simple Flask API backend for [alexa-discordvoice](https://github.com/timTam97/alexa-discordvoice). Returns information on members in voice chat on a Discord server.
+Simple Flask API, used in [alexa-discordvoice](https://github.com/timTam97/alexa-discordvoice). Returns information on members in voice chat on a Discord server.
+
+Consists of a Discord bot (`voice.py`) that must be joined to the server you want to monitor, and a Flask app (`api.py`) that serves up the information in JSON form.
 
 ### Sample Output
 ```json
 {
+  "member_count": 3,
+  "occupied_channels": 2,
+  "live_count": 1,
   "channels": {
     "Channel 1": [],
     "Channel 2": [],
@@ -39,9 +44,6 @@ Simple Flask API backend for [alexa-discordvoice](https://github.com/timTam97/al
     "Channel 6": [],
     "Channel 7": [],
     "Channel 8": []
-  },
-  "member_count": 3,
-  "occupied_channels": 2,
-  "live_count": 1
+  }
 }
 ```
